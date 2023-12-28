@@ -1,4 +1,4 @@
-// To setup the project
+// To setup the project in your own Gmail Account
 
 // STEP 1. Copy the entire script from github. Go to https://script.google.com. 
 // STEP 2. Create a new project. Name it "Event Automation1". Delete the MyFunction and paste the entire scrip.
@@ -10,7 +10,7 @@
 // STEP 8. Open the Google drive, check the form and excel files are created. Check the trigger is created.
 // STEP 9. Go back to Googl drive, open the form, send an invitation.
 // STEP 10. Check the execution logs.
-// STEP 11. Check the form repsonses and open the excel file for entries.
+// STEP 11. Check the form responses and open the excel file for entries.
 // STEP 12. The guest should have received the response email with the route list and route map.
 
 // Examples:
