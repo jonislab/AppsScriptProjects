@@ -1,5 +1,5 @@
 // Video #602 : Apps Script Gmail Automation For Beginners
-// Author     : Joni's Lab  (@jonislab)
+// Author     : Joni's Lab  (youtube.com@jonislab)
 
 
 // TOPICS:
@@ -130,12 +130,14 @@ function readMail5_attachment(){
 }
 
 function saveFileToFolder(attachment){
+  // replace the folderId with your own
   const folderId='1z4kWIZ8Qc0NAZhfQ1K-fiHTk3rwZO3Hf';
   var folder = DriveApp.getFolderById(folderId);
   var file = folder.createFile(attachment);
 }
 
 function saveFileToFolder(attachment, fileName){
+  // replace the folderId with your own
   const folderId='1z4kWIZ8Qc0NAZhfQ1K-fiHTk3rwZO3Hf';
   var folder = DriveApp.getFolderById(folderId);
   var file = folder.createFile(attachment);
