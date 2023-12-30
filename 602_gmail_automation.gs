@@ -8,7 +8,10 @@
 // 3. Iterating through threads
 // 4. Reading File Attachments and saving to GDrive
 // 5. Setting up a trigger to process emails
-// 6. auto-reply to email
+// 6. Auto-reply to email
+
+// References:
+// https://developers.google.com/apps-script/reference/gmail
 
 
 function myFunction() {
@@ -16,6 +19,12 @@ function myFunction() {
 }
 
 function readMail1(){
+  var threads = GmailApp.getInboxThreads(0,3);
+  var firstEmail=threads[0].getMessages()[0];
+  Logger.log(firstEmail.getSubject)
+}
+
+function readMail1_1(){
   var threads = GmailApp.getInboxThreads(0,2);
   // Loop for each thread (emails displayed in inbox)
   threads.forEach(function(thread){
@@ -25,7 +34,7 @@ function readMail1(){
 }
 
 
-function readMail1_1(){
+function readMail1_2(){
   // Log the subject lines of up to the first 50 emails in your Inbox
   var noOfEmailsToRead=2
   var threads = GmailApp.getInboxThreads(0, noOfEmailsToRead);
@@ -37,6 +46,7 @@ function readMail1_1(){
     }
   });
 }
+
 
 function readMail2(){
   // Get the list of emails
@@ -84,6 +94,8 @@ function readMail3_attachment(){
   }
 }
 
+
+// Save the File Attachment on a different file name
 function readMail4_attachment(){
   // Get the list of emails
   var noOfEmailsToRead=1
@@ -99,13 +111,16 @@ function readMail4_attachment(){
             messages[i][j].getSubject(), attachments[k].getName(), attachments[k].getSize());
         
         fileName = "myfile_" + getFormattedDate() + "." + attachments[k].getName().split(".")[1];
-        saveFileToFolder(attachments[k],fileName);
+        saveFileToFolder2(attachments[k],fileName);
        }
     }
   }
 }
 
-function readMail5_attachment(){
+// Save the File Attachment on a different file name
+// Save file if the subject contains "Report"
+// Reply to the email automatically
+function sendMail5_attachment(){
   // Get the list of emails
   var noOfEmailsToRead=1
   var threads = GmailApp.getInboxThreads(0, noOfEmailsToRead);
@@ -118,8 +133,9 @@ function readMail5_attachment(){
         var attachments = messages[i][j].getAttachments();
         for (var k = 0; k < attachments.length; k++) {
           fileName = "myfile_" + getFormattedDate() + "." + attachments[k].getName().split(".")[1];
-          saveFileToFolder(attachments[k],fileName);
+          saveFileToFolder2(attachments[k],fileName);
           Logger.log("done saving " + fileName);
+          messages[i][j].reply("I got the report. Thank you!");
         }
       }
       else{
@@ -136,7 +152,7 @@ function saveFileToFolder(attachment){
   var file = folder.createFile(attachment);
 }
 
-function saveFileToFolder(attachment, fileName){
+function saveFileToFolder2(attachment, fileName){
   // replace the folderId with your own
   const folderId='1z4kWIZ8Qc0NAZhfQ1K-fiHTk3rwZO3Hf';
   var folder = DriveApp.getFolderById(folderId);
@@ -149,28 +165,3 @@ function getFormattedDate(){
    return date.toString();
 }
 
-
-function sendMail6_attachment(){
-  // Get the list of emails
-  var noOfEmailsToRead=1
-  var threads = GmailApp.getInboxThreads(0, noOfEmailsToRead);
-  var messages = GmailApp.getMessagesForThreads(threads);
-  for (var i = 0 ; i < messages.length; i++) {
-    // if email has multiple replies, then messages[i].length is greater than 1
-    for (var j = 0; j < messages[i].length; j++) {
-      subject= messages[i][j].getSubject();
-      if (subject.indexOf("Report") > -1){
-        var attachments = messages[i][j].getAttachments();
-        for (var k = 0; k < attachments.length; k++) {
-          fileName = "myfile_" + getFormattedDate() + "." + attachments[k].getName().split(".")[1];
-          saveFileToFolder(attachments[k],fileName);
-          Logger.log("done saving " + fileName);
-          messages[i][j].reply("I got the report. Thank you!");
-        }
-      }
-      else{
-        Logger.log("Nothing to save ");
-      }
-    }
-  }
-}
