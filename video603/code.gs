@@ -1,7 +1,7 @@
-// Video Project #603 : Making a Professional HTML Email With Apps Script and Gmail
+// Video Project #603 : Developing a Professional HTML Email With Apps Script and Gmail
 // Author             : Joni's Lab  (youtube.com@jonislab)
 //
-// This Apps Script video is about HTML formatting Gmail for making a semi-professional look for beginners. 
+// This Apps Script video is about HTML formatting Gmail for making a professional look for beginners. 
 // Reference Docs:
 // https://developers.google.com/apps-script/guides/html
 // https://mailbakery.com/blog/how-email-html-coding-differs-from-web-html-coding/
