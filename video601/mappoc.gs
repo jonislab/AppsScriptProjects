@@ -7,7 +7,7 @@ function tester1(){
 }
 
 function tester2(){
-  route_result=testDirection()
+  route_result=getDirection()
   testStaticMap2(route_result["route"])
   Logger.log('Total Driving Distance: ' + route_result["distance"] + ' km');
 }
@@ -18,10 +18,11 @@ function testStaticMap()
   var folder = DriveApp.getFolderById(folderID);
 
   var markerSize = Maps.StaticMap.MarkerSize.MID;
-  var markerColor = Maps.StaticMap.Color.GREEN
+  var markerColor = Maps.StaticMap.Color.RED
   var map = Maps.newStaticMap()
   .setMarkerStyle(markerSize, markerColor,"A") 
   .addMarker(locationA)
+  .setMarkerStyle(markerSize, markerColor,"B") 
   .addMarker(locationB)
   .beginPath()
   .addAddress(locationA)
@@ -35,17 +36,21 @@ function testStaticMap()
   folder.createFile(pngBlob)
 }
 
+// Create a static map with driving directions
 function testStaticMap2( route){
+  // https://developers.google.com/apps-script/reference/maps/static-map
+  //
   const folderID='1iKxiSo0h356SwnylqDJtSWszSRPiUj-L' 
   var folder = DriveApp.getFolderById(folderID);
 
   var markerSize = Maps.StaticMap.MarkerSize.MID;
-  var markerColor = Maps.StaticMap.Color.GREEN
+  var markerColor = Maps.StaticMap.Color.RED
   var map = Maps.newStaticMap()
   .setMarkerStyle(markerSize, markerColor,"A")
-  .addPath(route.overview_polyline.points) 
   .addMarker(locationA)
+  .setMarkerStyle(markerSize, markerColor,"B")
   .addMarker(locationB)
+  .addPath(route.overview_polyline.points)  
   .setSize(600, 400)
   .getBlob();
   
@@ -54,7 +59,10 @@ function testStaticMap2( route){
   folder.createFile(pngBlob)
 }
 
-function testDirection() {
+// Get the turn-by-turn direction between locations
+function getDirection() {
+  // https://developers.google.com/apps-script/reference/maps
+  //
   var route_result={}
   var directions = Maps.newDirectionFinder()
     .setOrigin(locationA)
@@ -73,6 +81,7 @@ function testDirection() {
     var km = parseFloat(miles) * 1.60934;
     Logger.log('Total Driving Distance: ' + miles + ' (' + km + ' km)');
     route_result["distance"]=km
+
     // Loop through the steps and get the routeArray items
     var routeItems = '';
     for (var i = 0; i < routeArray.length; i++) {
